@@ -13,7 +13,7 @@ If the atlases do not look like the expected layout, it refuses and changes noth
 """
 import argparse, collections, glob, hashlib, json, os, shutil, subprocess, sys, time
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 CELL, COLS, ROWS = 8, 9, 10
 ORIG_SIZE = (71, 79)                                   # 9x10 cells of 7x7 + 1px separators
 NEW_SIZE = (COLS * CELL + COLS - 1, ROWS * CELL + ROWS - 1)
@@ -142,13 +142,22 @@ def glyph_pixels(ch, mode):
     return {(x, y) for y, row in enumerate(rows) for x, c in enumerate(row) if c == "#"}
 
 
+TWO_TONE = False       # --two-tone: keep the original's grey/yellow upper half + white lower half
+
+
 def colours(img):
-    """upper / lower colour of the original glyphs: upper rows grey / yellow / black, lower rows white"""
+    """(upper, lower) glyph colours. The original font is two-tone: upper rows grey / yellow / black, lower rows white.
+    By default one solid colour is used (white for the grey/white fonts, the yellow for the yellow ones): easier to read."""
     c = collections.Counter(p for p in img.getdata()
                             if p[3] > 0 and p != SEP and not (p[0] > 200 and p[2] > 200 and p[1] < 80))
     non_white = [k for k, _ in c.most_common() if k[:3] != (255, 255, 255)]
     upper = (non_white[0][:3] + (255,)) if non_white else WHITE
-    return upper, (WHITE if WHITE in c else upper)
+    lower = WHITE if WHITE in c else upper
+    if not TWO_TONE:
+        grey = upper[0] == upper[1] == upper[2]
+        solid = WHITE if (grey and WHITE in c) else upper      # black outline atlas stays black
+        return solid, solid
+    return upper, lower
 
 
 def build_atlas(old, mode):
@@ -269,7 +278,10 @@ def main():
     g.add_argument("--apply", action="store_true")
     g.add_argument("--restore", action="store_true")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--two-tone", action="store_true", help="keep the original grey/white two-tone shading")
     a = ap.parse_args()
+    global TWO_TONE
+    TWO_TONE = a.two_tone
     interactive = not (a.apply or a.restore)
 
     say("SKALD Readable Font Mod %s" % VERSION)

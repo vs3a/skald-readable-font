@@ -24,6 +24,7 @@ Tested on the GOG build "Launch 1.0.5" (the only one I have). Reports for other 
 
 ## Notes
 
+- Glyphs are drawn in **one solid colour** (the original font shades the upper half grey, which hurts readability). Want the original shading back? Run with `--two-tone`.
 - Only the **small** text is changed; the large gothic titles and the Medium/Big fonts are not.
 - English text only (no translation).
 - The exe is **unsigned**, so SmartScreen or an antivirus may warn. Everything is open source: run the same code with Python instead – `pip install UnityPy`, then `python src/patch_font.py --apply`. Release notes list the exe's SHA-256.
