@@ -1,0 +1,5 @@
+*.original
+*.new
+xd_tmp.*
+__pycache__/
+
