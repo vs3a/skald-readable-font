@@ -3,21 +3,21 @@
 ## 04b_03 font
 
 - Designer: Yuji Oshimoto ("04"), http://www.04.jp.org/
-- The pixel shapes in `patches/04b_03.xdelta` are derived from this font.
-- **Licence status: not verified.** The download page the modder used (fontpalace.com) lists the licence as
-  "Unknown", and the designer's site could not be opened to confirm the terms at the time of writing.
-  The 04b fonts are widely distributed as freeware, but that is not a substitute for the author's actual terms.
-- If you are the rights holder and want this removed, or want specific attribution, please open an Issue
-  and the mod will be updated or taken down.
-- The font file itself is **not** included in this repository.
+- `src/glyphs_04b.json` contains the pixel shapes of this font rendered at 8 px (the font file itself is **not** included).
+- **Licence status: not verified.** The download page used (fontpalace.com) lists the licence as "Unknown", and
+  the designer's site could not be opened to confirm the terms. The 04b fonts are widely distributed as freeware,
+  but that is not a substitute for the author's actual terms.
+- If you are the rights holder and want this removed, or want specific attribution, please open an Issue and the
+  mod will be updated or taken down.
 
-## xdelta3
+## Released executable
 
-- `bin/xdelta3.exe` is the unmodified Windows build `xdelta3-3.1.0-x86_64.exe`
-  from https://github.com/jmacd/xdelta-gpl/releases/tag/v3.1.0 (© Joshua MacDonald, GNU GPL).
-- Source code: https://github.com/jmacd/xdelta-gpl
+`SKALD-Font-Patcher.exe` is `src/patch_font.py` frozen with PyInstaller together with these libraries:
+UnityPy (MIT), Pillow (HPND), PyInstaller (GPL-2.0 with the bootloader exception), and small helpers
+(archspec, etcpak, texture2ddecoder, astc-encoder-py, brotli, lz4, fsspec, attrs) under their own permissive licences.
+Rebuild it with `src/build_exe.cmd`.
 
 ## SKALD: Against the Black Priory
 
 - © High North Studios. This is an unofficial fan modification. No game assets are distributed here;
-  the patch only works on a copy of the game that you own.
+  the tool only works on a copy of the game that you own.
